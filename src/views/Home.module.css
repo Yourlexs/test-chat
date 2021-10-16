@@ -1,0 +1,61 @@
+/* Join Page */
+.joinContainer {
+  max-width: 500px;
+  margin: 80px auto;
+  color: #fff;
+}
+
+.joinHeader {
+  text-align: center;
+  padding: 20px;
+  background: var(--dark-color-a);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.joinMain {
+  padding: 30px 40px;
+  background: var(--dark-color-b);
+}
+
+.joinMain p {
+  margin-bottom: 20px;
+}
+
+.joinMain .formControl {
+  margin-bottom: 20px;
+}
+
+.joinMain label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.joinMain input[type="text"] {
+  font-size: 16px;
+  padding: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+.joinMain select {
+  font-size: 16px;
+  padding: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+.joinMain .btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .chatMain {
+    display: block;
+  }
+
+  .chatSidebar {
+    display: none;
+  }
+}

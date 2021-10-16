@@ -1,0 +1,15 @@
+.chatFormContainer {
+  padding: 20px 30px;
+  background-color: var(--dark-color-a);
+}
+
+.chatFormContainer form {
+  display: flex;
+}
+
+.chatFormContainer input[type="text"] {
+  font-size: 16px;
+  padding: 5px;
+  height: 40px;
+  flex: 1;
+}
