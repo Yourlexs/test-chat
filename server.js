@@ -11,19 +11,13 @@ const io = new Server(server, {
     origin: '*'
   }
 });
-// import {formatMessage} from './utils/messages'
-// import {
-//   userJoin,
-//   getCurrentUser,
-//   userLeave,
-//   getRoomUsers
-// } from './utils/users'
 
 const botName = 'Chat Bot';
 
 //
 
 let users = [];
+let messages = []
 
 function userJoin(id, username, room) {
   const user = { id, username, room };
@@ -49,6 +43,11 @@ function getRoomUsers(room) {
 
 //
 function formatMessage(username, text) {
+  messages.push({
+    username,
+    text,
+    time: moment().format('h:mm a')
+  })
   return {
     username,
     text,
@@ -59,6 +58,8 @@ function formatMessage(username, text) {
 
 io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
+    console.log('connect')
+
     const user = userJoin(socket.id, username, room);
     socket.join(user.room);
 
@@ -82,7 +83,11 @@ io.on('connection', socket => {
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
 
+  socket.on('getMessages', () => {
+    io.to(socket.id).emit('messages', messages)
+  })
   socket.on('disconnect', () => {
+    console.log('disconect')
     const user = userLeave(socket.id);
 
     if (user) {

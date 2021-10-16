@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState} from 'react';
+import { lazy, Suspense} from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 const HomePage = lazy(() => import('./views/HomePage.js'));

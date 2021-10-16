@@ -1,7 +1,5 @@
-import {
-  useLocation,
-  useHistory,
-} from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { nanoid } from "nanoid";
 
@@ -14,18 +12,24 @@ import { useChat } from "../hooks/useChat";
 import styles from "./Chat.module.css";
 
 export default function ChatPage() {
+  const [messages, setMessages] = useState([]);
   const location = useLocation();
   const history = useHistory();
-  const {users, room, username, messages, sendMessage} = useChat()
+  const { users, room, username, message, sendMessage } = useChat();
 
-  console.log(messages)
+  useEffect(() => {
+    if (message === '') {
+      return
+    }
+    setMessages([...messages, message]);
+  }, [message]);
 
   const onInvite = () => {
-  prompt(
-    "Copy this link and send it to people you want to meet with",
-    window.location.href
-  );
-  }
+    prompt(
+      "Copy this link and send it to people you want to meet with",
+      window.location.href
+    );
+  };
 
   const onGoBack = () => {
     history.push(location?.state?.from?.location ?? "/");
@@ -35,17 +39,17 @@ export default function ChatPage() {
     <div className={styles.chatContainer}>
       <header className={styles.chatHeader}>
         <h1>Chat</h1>
-        <button className='btn' onClick={onInvite}>
+        <button className="btn" onClick={onInvite}>
           Invite friends
         </button>
-        <button className='btn' onClick={onGoBack}>
+        <button className="btn" onClick={onGoBack}>
           Leave room
         </button>
       </header>
       <main className={styles.chatMain}>
         <div className={styles.chatSidebar}>
           <h3> Room Name:</h3>
-          <h2>{ room}</h2>
+          <h2>{room}</h2>
           <h3> Users</h3>
           <ul>
             {users.map((user) => (
@@ -54,10 +58,10 @@ export default function ChatPage() {
           </ul>
         </div>
         <div className={styles.chatMessages}>
-          <MessageList messages={messages }/>
+          <MessageList messages={messages} />
         </div>
       </main>
-      <MessageForm username={username} sendMessage={sendMessage}/>
+      <MessageForm username={username} sendMessage={sendMessage} />
     </div>
   );
 }

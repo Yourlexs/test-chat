@@ -4,8 +4,7 @@ import { io } from "socket.io-client";
 const SERVER_URL = "http://localhost:5000";
 export const useChat = () => {
   const [users, setUsers] = useState([])
-  const [messages, setMessages] = useState([])
-
+  const [message, setMessage] = useState('')
   const [username, setUsername] = useState(localStorage.getItem('username'))
   const [room, setRoom] = useState(localStorage.getItem('room'))
 
@@ -16,10 +15,12 @@ export const useChat = () => {
 
     socketRef.current.emit("joinRoom", { username, room });
 
+    socketRef.current.emit('getMessages')
+
     socketRef.current.on("message", (message) => {
-      setMessages([...messages, message]);
+      setMessage(message);
     });
-    
+
     socketRef.current.on("roomUsers", ({ room, users }) => {
       setRoom(room)
       setUsers(users);
@@ -28,11 +29,11 @@ export const useChat = () => {
     return () => {
       socketRef.current.disconnect();
     };
-  }, [username, room]);
+  }, [room, username]);
 
   const sendMessage = (text) => {
     socketRef.current.emit("chatMessage", text);
   };
 
-  return {users, username, room, messages, sendMessage}
+  return {users, username, room, message, sendMessage}
 };
