@@ -45,9 +45,16 @@
   width: 100%;
 }
 
-.joinMain .btn {
+.btnJoin {
   margin-top: 20px;
   width: 100%;
+
+  cursor: pointer;
+  padding: 5px 15px;
+  background: var(--light-color);
+  color: var(--dark-color-a);
+  border: 0;
+  font-size: 17px;
 }
 
 @media (max-width: 700px) {

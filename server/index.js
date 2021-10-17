@@ -1,8 +1,6 @@
 import http  from 'http'
 import express from 'express'
 import { Server } from 'socket.io'
-import moment from 'moment'
-
 const app = express()
 const server = http.createServer(app)
 
@@ -12,49 +10,15 @@ const io = new Server(server, {
   }
 });
 
+import formatMessage  from './handlers/messageHandlers.js'
+import {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers
+} from './handlers/userHandlers.js'
+
 const botName = 'Chat Bot';
-
-//
-
-let users = [];
-let messages = []
-
-function userJoin(id, username, room) {
-  const user = { id, username, room };
-  users.push(user);
-  return user;
-}
-
-function getCurrentUser(id) {
-  return users.find(user => user.id === id);
-}
-
-function userLeave(id) {
-  const index = users.findIndex(user => user.id === id);
-
-  if (index !== -1) {
-    return users.splice(index, 1)[0];
-  }
-}
-
-function getRoomUsers(room) {
-  return users.filter(user => user.room === room);
-}
-
-//
-function formatMessage(username, text) {
-  messages.push({
-    username,
-    text,
-    time: moment().format('h:mm a')
-  })
-  return {
-    username,
-    text,
-    time: moment().format('h:mm a')
-  };
-}
-//
 
 io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
@@ -84,7 +48,7 @@ io.on('connection', socket => {
   });
 
   socket.on('getMessages', () => {
-    io.to(socket.id).emit('messages', messages)
+    io.to(socket.id).emit('messages')
   })
   socket.on('disconnect', () => {
     console.log('disconect')

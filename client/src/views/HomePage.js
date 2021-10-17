@@ -3,7 +3,6 @@ import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import styles from "./Home.module.css";
 
 function HomePage() {
-  // let room = localStorage.getItem('room')
   const [username, setUsername] = useState('')
   const [room, setRoom] = useState('Home')
   
@@ -16,6 +15,7 @@ function HomePage() {
   useEffect(() => {
     history.push({ pathname: location.pathname });
   }, [location.pathname, history]);
+
   useEffect(() => {
     localStorage.setItem('username', username)
     localStorage.setItem('room', room)
@@ -66,7 +66,7 @@ function HomePage() {
                   },
                 },
               }}
-              className={styles.btn}
+              className={styles.btnJoin}
               ref={linkRef}
             >
               Join Chat
